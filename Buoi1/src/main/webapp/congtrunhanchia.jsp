@@ -31,7 +31,7 @@
 %>
 
 <div class="center">
-	<form action="test" method="get">
+	<form action="test" method="post">
 		<input name="num1" type="number" value="<%=a %>">
 		<select name="selectFomular" style="width:100px">
 			<option value="add" selected>+</option>

@@ -1,8 +1,8 @@
 package Controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,17 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import bo.giohangbo;
+
 /**
- * Servlet implementation class ktdn
+ * Servlet implementation class xoasachdachon
  */
-@WebServlet("/ktdn")
-public class ktdn extends HttpServlet {
+@WebServlet("/xoasachdachon")
+public class xoasachdachon extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ktdn() {
+    public xoasachdachon() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,24 +32,34 @@ public class ktdn extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		PrintWriter out = response.getWriter();
+		giohangbo gh;
+		HttpSession session = request.getSession();
 		
-		String tk = request.getParameter("txtun");
-		String pass = request.getParameter("txtpass");
+		if(session.getAttribute("gio") == null){
+			gh = new giohangbo();
+			session.setAttribute("gio", gh);
+		}
+		
+		gh = (giohangbo)session.getAttribute("gio");
+	
+		String names = request.getParameter("listbooks");
+		String[] ms = names.split(",");
+		
+		for(String maSach : ms){
+			gh.XoaSach(maSach);
+		}
+
+		session.setAttribute("gio", gh);
 		
 		
 		
-		if(tk != null && pass != null){
-			//tao ra session
-			HttpSession session = request.getSession();
-			if(tk.equals("abc") && pass.equals("123"))
-			{
-				session.setAttribute("acc", "ChuongDoan");
-				response.sendRedirect("hienthisach");
-			}
-			else
-				response.sendRedirect("dangnhap.jsp");
-			
+		if(gh.ds.size() != 0) {
+			RequestDispatcher rd = request.getRequestDispatcher("hienthigio");
+			rd.forward(request, response);
+		}
+		else {
+			RequestDispatcher rd = request.getRequestDispatcher("hienthisach");
+			rd.forward(request, response);
 		}
 	}
 

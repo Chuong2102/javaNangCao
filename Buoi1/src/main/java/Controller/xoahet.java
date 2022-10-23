@@ -1,7 +1,6 @@
 package Controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,18 +8,21 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import bo.giohangbo;
 
 /**
- * Servlet implementation class test
+ * Servlet implementation class xoahet
  */
-@WebServlet("/test")
-public class test extends HttpServlet {
+@WebServlet("/xoahet")
+public class xoahet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public test() {
+    public xoahet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,8 +32,20 @@ public class test extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doPost(request, response);
+		giohangbo gh;
+		HttpSession session = request.getSession();
 		
+		if(session.getAttribute("gio") == null){
+			gh = new giohangbo();
+			session.setAttribute("gio", gh);
+		}
+		
+		gh = (giohangbo)session.getAttribute("gio");
+		gh.XoaHetSach();
+		session.setAttribute("gio", gh);
+		
+		RequestDispatcher rd = request.getRequestDispatcher("hienthisach");
+		rd.forward(request, response);
 	}
 
 	/**
@@ -39,42 +53,7 @@ public class test extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		PrintWriter out = response.getWriter();
-		
-		String aa = request.getParameter("num1");
-		String bb = request.getParameter("num2");
-		
-		String dau = request.getParameter("selectFomular");
-		long a, b;
-		a = 0;
-		b = 0;
-		
-		if(aa != null && bb != null) {
-			a = Long.parseLong(aa);
-			b = Long.parseLong(bb);
-		}
-		
-		long kq = 0;
-		
-		if(request.getParameter("result") != null) {
-			if(dau.equals("add"))
-				kq = a + b;
-			else if(dau.equals("sub"))
-				kq = a - b;
-			else if(dau.equals("mulp"))
-				kq = a * b;
-			else if(dau.equals("divide"))
-				if(b != 0)
-					kq = a / b;
-				else kq = 0;
-			
-			request.setAttribute("a", a);
-			request.setAttribute("b", b);
-			request.setAttribute("kq", kq);
-			
-			RequestDispatcher rd = request.getRequestDispatcher("congtrunhanchia.jsp");
-			rd.forward(request, response);
-		}
+		doGet(request, response);
 	}
 
 }

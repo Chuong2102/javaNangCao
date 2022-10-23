@@ -8,25 +8,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<%
-		String maSach = request.getParameter("ms");
-		
-		giohangbo gh;
-		
-		if(session.getAttribute("gio") == null){
-			gh = new giohangbo();
-			session.setAttribute("gio", gh);
-		}
-		
-		gh = (giohangbo)session.getAttribute("gio");
-		gh.XoaSach(maSach);
-		session.setAttribute("gio", gh);
-		
-		if(gh.ds.size() != 0)
-			response.sendRedirect("htgio.jsp");
-		else
-			response.sendRedirect("htsach.jsp");
-		
-	%>
+	
 </body>
 </html>

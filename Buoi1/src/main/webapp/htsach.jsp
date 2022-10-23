@@ -9,14 +9,7 @@ pageEncoding="utf-8"%>
 <%
 	long tongSach = 0;
 
-	if(session.getAttribute("gio") != null){
-		giohangbo gh;
-		gh=	
-		(giohangbo)session.getAttribute("gio");
-		tongSach = gh.ds.size();
-	}
-
-	
+	tongSach = (long)request.getAttribute("tongsach");
 %>
 <!DOCTYPE html>
 <html>
@@ -33,7 +26,7 @@ pageEncoding="utf-8"%>
 	 <div class="container-fluid">
 	    
 	    <ul class="nav navbar-nav">
-	      <li class="active"><a href="htsach.jsp">Trang chủ</a></li>
+	      <li class="active"><a href="hienthisach">Trang chủ</a></li>
 <li><a href="#">Giỏ hàng (<%=tongSach%>) </a></li>
 <li><a href="#">Thanh toán</a></li>
 <li><a href="#">Lịch sử mua hàng
@@ -68,13 +61,15 @@ pageEncoding="utf-8"%>
   	<tr>
 	  <td width="200" valign="top"> 
 	     <table>
-	     <%loaibo lbo=new loaibo();
-	       ArrayList<loaibean> dsloai=lbo.getloai();
-	       for(loaibean l:dsloai){
+	     <%
+	     	
+	       	ArrayList<loaibean> dsloai = (ArrayList<loaibean>)request.getAttribute("dsloai");
+	       	
+	       	for(loaibean l : dsloai){
 	     %>
 	        <tr>
 	        	<td>
-		          <a href="htsach.jsp?ml=<%=l.getMaloai() %>">
+		          <a href="hienthisach?ml=<%=l.getMaloai() %>">
 		            <%=l.getTenloai() %>
 		          </a>
 	        	</td>
@@ -85,23 +80,18 @@ pageEncoding="utf-8"%>
   
   	<td width="600" valign="top">
   
-   hien thi sach 
    <table>
      <%
     String ml = request.getParameter("ml");
     String key = request.getParameter("txttk");
      
-   	sachbo sbo=new sachbo();
-  	ArrayList<sachbean> dssach=sbo.getSach();
+  	ArrayList<sachbean> dssach = (ArrayList<sachbean>)request.getAttribute("dssach");
   	
-  	if(ml != null)
-  		dssach = sbo.TimMa(ml);
-  	else
-  		if(key != null)
-  			dssach = sbo.Tim(key);
+  	
   	
   	int n=dssach.size();
-   	for(int i=0;i<n;i++){
+  	
+   	for(int i = 0; i < n; i++){
 	   sachbean s= dssach.get(i);
     %>
     <tr>
@@ -109,7 +99,9 @@ pageEncoding="utf-8"%>
        <img src="<%=s.getAnh() %>"> <br>
        <%=s.getTensach() %> <br>
        <%=s.getGia() %> <br>
-       <a href="giohang.jsp?ms=<%=s.getMasach()%>&ts=<%=s.getTensach() %>&gia=<%=s.getGia()%>"><img src="mua.jpg"></a> <hr>
+       <%if(session.getAttribute("acc") != null){ %>
+       <a href="themvaogio?ms=<%=s.getMasach()%>&ts=<%=s.getTensach() %>&gia=<%=s.getGia()%>"><img src="mua.jpg"></a> <hr>
+       <%} %>
     </td>                           
     <%i++;
     if(i<n){
@@ -119,7 +111,7 @@ pageEncoding="utf-8"%>
        <img src="<%=s.getAnh() %>"> <br>
        <%=s.getTensach() %> <br>
        <%=s.getGia() %> <br>
-        <a href="giohang.jsp?ms=<%=s.getMasach()%>&ts=<%=s.getTensach() %>&gia=<%=s.getGia()%>"><img src="mua.jpg"></a>  <hr>
+        <a href="themvaogio?ms=<%=s.getMasach()%>&ts=<%=s.getTensach() %>&gia=<%=s.getGia()%>"><img src="mua.jpg"></a>  <hr>
     </td>
     <%} %>
     
@@ -131,7 +123,7 @@ pageEncoding="utf-8"%>
   	
    </td>
   <td width="200" valign="top"> Tim kiem
-  	<form action="htsach.jsp" method="get">
+  	<form action="hienthisach" method="get">
       <input  name="txttk" type="text" value="" placeholder="Nhap tt"> <br>
       <input  name="butdn" type="submit" value="Search">
    	</form>

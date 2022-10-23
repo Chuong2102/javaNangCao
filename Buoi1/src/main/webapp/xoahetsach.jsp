@@ -8,19 +8,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<%
-		giohangbo gh;
-		
-		if(session.getAttribute("gio") == null){
-			gh = new giohangbo();
-			session.setAttribute("gio", gh);
-		}
-		
-		gh = (giohangbo)session.getAttribute("gio");
-		gh.XoaHetSach();
-		session.setAttribute("gio", gh);
-		
-		response.sendRedirect("htsach.jsp");
-	%>
+	
 </body>
 </html>
