@@ -35,6 +35,7 @@ public class themvaogio extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
 		HttpSession session = request.getSession();
 		
 		String maSach = request.getParameter("ms");
@@ -70,7 +71,6 @@ public class themvaogio extends HttpServlet {
     	}
        	
     	request.setAttribute("tongsach", tongSach);
-    	
     	//
        	RequestDispatcher rd = request.getRequestDispatcher("htgio.jsp");
 		rd.forward(request, response);

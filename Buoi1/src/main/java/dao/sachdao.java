@@ -1,16 +1,45 @@
 package dao;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import bean.loaibean;
 import bean.sachbean;
 public class sachdao {
 	public ArrayList<sachbean> getsach(){
-		ArrayList<sachbean> ds = new ArrayList<sachbean>();
-		ds.add(new sachbean("s1", "Co so du lieu", "Le Nam", 10, 1000, "b1.jpg", "tin"));
-		ds.add(new sachbean("s2", "Toan roi rac", "Tran Thanh Cong", 100, 50000, "b2.jpg", "toan"));
-		ds.add(new sachbean("s3", "Giai tich", "Ngoc Trinh", 200, 25000, "b3.jpg", "toan"));
-		ds.add(new sachbean("s4", "Cau truc du lieu va Thuat toan", "Tram Anh", 50, 5000, "b4.jpg", "tin"));
-		ds.add(new sachbean("s5", "Java co ban", "Le Nu", 100, 50000, "b5.jpg", "tin"));
-		ds.add(new sachbean("s6", "Java nang cao", "Le Nu", 100, 50000, "b6.jpg", "tin"));
-		return ds;
+		
+		try {
+			ArrayList<sachbean> ds = new ArrayList<sachbean>();
+			// b1: Ket noi vao csdl
+			KetNoi kn = new KetNoi();
+			kn.KetNoi();
+			//b2: Lay du lieu ve
+			String sql = "select * from sach";
+			PreparedStatement cmd = kn.cn.prepareStatement(sql);
+			ResultSet rs = cmd.executeQuery();
+			// b3
+			while(rs.next()) {
+				String masach = rs.getString("masach");
+				String tensach = rs.getString("tensach");
+				String tacgia = rs.getString("tacgia");
+				int soluong = Integer.parseInt(rs.getString("soluong"));
+				int gia = Integer.parseInt(rs.getString("gia"));
+				String anh = rs.getString("anh");
+				String maloai = rs.getString("maloai");
+				
+				ds.add(new sachbean(masach, tensach, tacgia, soluong, gia, anh, maloai));
+				
+			}
+			//b4: dong ket noi
+			rs.close();
+			kn.cn.close();
+			return ds;
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+
+			return null;
+		}
+		
 	}
 }

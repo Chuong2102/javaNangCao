@@ -100,7 +100,7 @@ pageEncoding="utf-8"%>
        <%=s.getTensach() %> <br>
        <%=s.getGia() %> <br>
        <%if(session.getAttribute("acc") != null){ %>
-       <a href="themvaogio?ms=<%=s.getMasach()%>&ts=<%=s.getTensach() %>&gia=<%=s.getGia()%>"><img src="mua.jpg"></a> <hr>
+       <a href="xulygio?ms=<%=s.getMasach()%>&ts=<%=s.getTensach() %>&gia=<%=s.getGia()%>"><img src="mua.jpg"></a> <hr>
        <%} %>
     </td>                           
     <%i++;
@@ -111,7 +111,7 @@ pageEncoding="utf-8"%>
        <img src="<%=s.getAnh() %>"> <br>
        <%=s.getTensach() %> <br>
        <%=s.getGia() %> <br>
-        <a href="themvaogio?ms=<%=s.getMasach()%>&ts=<%=s.getTensach() %>&gia=<%=s.getGia()%>"><img src="mua.jpg"></a>  <hr>
+        <a href="xulygio?ms=<%=s.getMasach()%>&ts=<%=s.getTensach() %>&gia=<%=s.getGia()%>"><img src="mua.jpg"></a>  <hr>
     </td>
     <%} %>
     
